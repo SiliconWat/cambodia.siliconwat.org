@@ -14,44 +14,56 @@ template.innerHTML = `
         <nav>
             <ul>
                 <li>
-                    <h3>Frontend Course</h3>
+                    <h3>Week 1</h3>
                     <div>
-                        <a href="#Frontend.SiliconWat.org"><button class="cohort">Join: Remote Cohort Frontend Program</button></a>
+                        <a href="#Frontend.SiliconWat.org"><button class="cohort">Progress bar here</button></a>
                         <h4>Learn</h4>
                         <menu>
-                            <li><a>Watch Videos on Udemy</a></li>
-                            <li><a>Read Textbook on Medium</a></li>
-                            <li><a>Take Quizzes to Check Understanding</a></li>
+                            <li>
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Chapter 1</a>
+                            </li>
+                            <li>
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Chapter 2</a>
+                            </li>
+                            <li>
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Chapter 3</a>
+                            </li>
                         </menu>
                         <h4>Practice</h4>
                         <menu>
-                            <li><a>Podcast: Motivation & Coding Music</a></li>
-                            <li><a>Interactive Coding Exercises</a></li>
-                            <li class="cohort"><a>Remote Pair Programming on Discord</a></li>
-                            <li class="cohort"><a>Students' Solo Projects on Codepen</a></li>
+                            <li class="cohort">
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Remote Pair Programming on Discord</a>
+                            </li>
+                            <li class="cohort">
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Students' Solo Projects on Codepen</a>
+                            </li>
                         </menu>
                         <h4>Review</h4>
                         <menu>
-                            <li><a>Live Demo: Music Apps</a></li>
-                            <li><a>Syntax Flashcards</a></li>
-                            <li class="cohort"><a>Group Chat & Discussion Boards</a></li>
-                            <li class="cohort"><a>Students' Writings on Medium</a></li>
-                            <li class="cohort"><a>Mock Interviews on YouTube</a></li>
+                            <li class="cohort">
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Group Chat & Discussion Boards</a>
+                            </li>
+                            <li class="cohort">
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Students' Writings on Medium</a>
+                            </li>
+                            <li class="cohort">
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Mock Interviews on YouTube</a>
+                            </li>
                         </menu>
-                        <h4>Bonus: Advanced Lessons</h4>
-                        <menu>
-                            <li><a>React and Redux</a></li>
-                            <li><a>TypeScript</a></li>
-                            <li><a>Web Audio Production</a></li>
-                        </menu>
-                        <br>
-                        <a href="#Frontend.SiliconWat.com"><button>eLearn: Frontend Music Course</button></a>
                     </div>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <h3>Backend Course</h3>
+                    <h3>Week 2</h3>
                     <div>
                         <a href="#Backend.SiliconWat.org"><button class="cohort">Join: Remote Cohort Backend Program</button></a>
                         <h4>Learn</h4>
@@ -80,14 +92,12 @@ template.innerHTML = `
                             <li><a>Quantum Physics & Computing</a></li>
                             <li><a>Kiitos Programming Language</a></li>
                         </menu>
-                        <br>
-                        <a href="#Backend.SiliconWat.com"><button>eLearn: Backend Blockchain Course</button></a>
                     </div>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <h3>iOS Course</h3>
+                    <h3>Week 3</h3>
                     <div>
                         <a href="#iOS.SiliconWat.org"><button class="cohort">Join: Remote Cohort iOS Program</button></a>
                         <h4>Learn</h4>
@@ -124,7 +134,7 @@ template.innerHTML = `
             </ul>
             <ul>
                 <li>
-                    <h3>Graduation</h3>
+                    <h3>Week 4</h3>
                     <div>
                         <a><button>Earn SW Coins</button></a>
                         <h4>Awards</h4>
@@ -148,7 +158,147 @@ template.innerHTML = `
             </ul>
             <ul>
                 <li>
-                    <h3>Coupons</h3>
+                    <h3>Week 5</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 6</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 7</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 8</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 9</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 10</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 11</h3>
+                    <div>
+                        <a><button>Apply for Discounts</button></a>
+                        <h4>Inclusion & Diversity</h4>
+                        <menu>
+                            <li><a>Women & Minorities</a></li>
+                            <li><a>Ukrainian Refugees</a></li>
+                            <li><a>Cambodian Genocide</a></li>
+                        </menu>
+                        <h4>Campuses</h4>
+                        <menu>
+                            <li><a>Cambodia</a></li>
+                            <li><a>Ukraine</a></li>
+                            <li><a>United States</a></li>
+                        </menu>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <h3>Week 12</h3>
                     <div>
                         <a><button>Apply for Discounts</button></a>
                         <h4>Inclusion & Diversity</h4>
