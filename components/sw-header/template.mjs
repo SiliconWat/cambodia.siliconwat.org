@@ -31,31 +31,31 @@ template.innerHTML = `
                                 <input id="chapter1" type="checkbox" oninput="checkMark(this)">
                                 <a>Chapter 3</a>
                             </li>
+                            <li class="cohort">
+                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
+                                <a>Study Groups & Discussion Boards on Discord</a>
+                            </li>
                         </menu>
                         <h4>Practice</h4>
                         <menu>
                             <li class="cohort">
                                 <input id="chapter1" type="checkbox" oninput="checkMark(this)">
-                                <a>Remote Pair Programming on Discord</a>
+                                <a>Mock Interviews on YouTube</a>
                             </li>
                             <li class="cohort">
                                 <input id="chapter1" type="checkbox" oninput="checkMark(this)">
-                                <a>Students' Solo Projects on Codepen</a>
+                                <a>Remote Pair Programming on Discord</a>
                             </li>
                         </menu>
                         <h4>Review</h4>
                         <menu>
                             <li class="cohort">
                                 <input id="chapter1" type="checkbox" oninput="checkMark(this)">
-                                <a>Group Chat & Discussion Boards</a>
-                            </li>
-                            <li class="cohort">
-                                <input id="chapter1" type="checkbox" oninput="checkMark(this)">
                                 <a>Students' Writings on Medium</a>
                             </li>
                             <li class="cohort">
                                 <input id="chapter1" type="checkbox" oninput="checkMark(this)">
-                                <a>Mock Interviews on YouTube</a>
+                                <a>Students' Solo Projects on Codepen</a>
                             </li>
                         </menu>
                     </div>

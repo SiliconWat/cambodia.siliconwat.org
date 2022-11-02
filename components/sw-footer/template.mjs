@@ -18,20 +18,15 @@ template.innerHTML = `
                 <ul>
                     <li><a href="https://heartbank.fund">HeartBank</a></li>
                     <li><a href="https://github.com/sponsors/SiliconWat">GitHub</a></li>
-                </ul>
-                <h5>Contact</h5>
-                <ul>
-                    <li><a href="https://thonly.org">Lead Instructor: Thon Ly</a></li>
-                    <li><a href="mailto:university@siliconwat.com">university@siliconwat.com</a></li>
+                    <li><a href="https://medium.com/@thonly/membership">Medium</a></li>
                 </ul>
             </section>
             <section>
-                <h5>Connect</h5>
+                <h5>Students' Projects</h5>
                 <ul>
-                    <li><a href="https://talk.siliconwat.org">Silicon Wat</a></li>
-                    <li><a href="https://twitter.com/siliconwat">Twitter</a></li>
-                    <li><a href="https://www.youtube.com/channel/UCDImuNM6FUWuctrWXwiGZ4Q">YouTube</a></li>
-                    <li><a href="https://medium.com/@thonly">Medium</a></li>
+                    <li><a href="https://music.siliconwat.com">Best Startup</a></li>
+                    <li><a href="https://music.siliconwat.org">Best Business Idea</a></li>
+                    <li><a href="https://music.siliconwat.org">Best Coding</a></li>
                 </ul>
             </section>
         </main>
