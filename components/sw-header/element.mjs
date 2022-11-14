@@ -1,3 +1,4 @@
+import { FRONTEND } from "/global.mjs";
 import { UNITS, CHAPTERS } from "/data.mjs";
 import template from './template.mjs';
 
@@ -8,7 +9,8 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    connectedCallback() {
+    async connectedCallback() {
+        await import(`${FRONTEND}/components/sw-header/sw-bar/element.mjs`);
         this.#render();
     }
 

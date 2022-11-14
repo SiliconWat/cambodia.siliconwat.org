@@ -7,11 +7,11 @@ import "./components/sw-main/sw-home/element.mjs";
 import "./components/sw-main/element.mjs";
 
 import "./components/sw-footer/element.mjs";
+import { FRONTEND } from "/global.mjs";
 
 window.onload = async () => {
-    const origin = window.location.hostname === '127.0.0.1' ? "http://127.0.0.1:5531" : "https://frontend.siliconwat.com";
-    await import(`${origin}/components/sw-progress/element.mjs`);
-    await import(`${origin}/components/sw-music/element.mjs`);
+    await import(`${FRONTEND}/components/sw-progress/element.mjs`);
+    await import(`${FRONTEND}/components/sw-music/element.mjs`);
 }
 
 window.dataLayer = window.dataLayer || [];
