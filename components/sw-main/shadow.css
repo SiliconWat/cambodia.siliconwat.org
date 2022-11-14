@@ -1,3 +1,60 @@
 :host {
-	font-size: medium;
+    display: none;
+    font-size: medium;
+    position: relative;
+}
+
+slot {
+    color: var(--theme-color-1);
+}
+
+footer {
+    color: white;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    padding: 0 20px 50px;
+    font-style: italic;
+}
+
+a {
+  color: currentColor;
+}
+
+/*======*/
+
+svg {
+  position: absolute;
+  z-index: -100;
+  width: 100%;
+  background: linear-gradient(90deg, rgba(5,117,230,1) 0%, rgba(2,27,121,1) 100%);
+}
+
+#background-illustration #Msg {
+  animation: floating 3s infinite alternate;
+}
+#background-illustration #BtnLeft {
+  animation: floating 3s 1s infinite alternate;
+}
+#background-illustration #BtnRight {
+  animation: floating 3s 2s infinite backwards alternate;
+}
+#background-illustration #Plus {
+  animation: blipping 3s infinite alternate;
+}
+
+@keyframes floating {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(20px);
+  }
+}
+@keyframes blipping {
+  0% {
+    opacity: 0.3;
+  }
+  100% {
+    opacity: 0.1;
+  }
 }

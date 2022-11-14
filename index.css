@@ -12,7 +12,7 @@ html {
 }
 
 body {
-    background: linear-gradient(var(--palette-color-3), var(--palette-color-4));
+    background: linear-gradient(90deg, rgba(5,117,230,1) 0%, rgba(2,27,121,1) 100%);
     margin: 0;
     display: flex;
     flex-direction: column;
@@ -26,13 +26,15 @@ sw-header {
 }
 
 main {
-    display: grid;
-    grid-template-rows: auto auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     overflow: hidden scroll;
 }
 
 sw-main {
-    min-height: 90vh;
+    --theme-color-1: var(--palette-color-1);
+    --theme-color-2: var(--palette-color-2);
 }
 
 sw-footer {
