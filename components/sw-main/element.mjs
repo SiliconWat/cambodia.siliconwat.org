@@ -22,7 +22,7 @@ class SwMain extends HTMLElement {
     get #hash() {
         if (window.location.hash) {
             const hash = window.location.hash.substring(1).split("-");
-            return ["SW-" + hash[0].toUpperCase(), Number(hash[1].replace("unit", "")), Number(hash[2].replace("chapter", ""))];
+            return ["SW-" + hash[0].toUpperCase(), Number(hash[1].replace("week", "")), Number(hash[2].replace("chapter", ""))];
         } return ["SW-HOME", null, null];
     }
 }

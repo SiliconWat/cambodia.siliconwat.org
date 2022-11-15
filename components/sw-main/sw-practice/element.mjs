@@ -8,43 +8,45 @@ class SwPractice extends HTMLElement {
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    async render(unit, chapter) {
+    async render(w, c) {
         this.style.display = 'block';
-        const done = Number(localStorage.getItem(`practice-unit${unit}-chapter${chapter}`));
+        const done = Number(localStorage.getItem(`practice-week${w}-chapter${c}`));
 
         const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
         const { WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
+        const week = WEEKS[w - 1];
+        const chapter = CHAPTERS[c - 1];
 
-        this.shadowRoot.querySelector('header h1').textContent = `Unit ${unit}: ${WEEKS[unit - 1].title}`;
-        this.shadowRoot.querySelector('header h2').textContent = `${done ? "✅" : "💻"} Practice: Chapter ${chapter}`;
-        this.shadowRoot.querySelector('header h3').textContent = `${done ? "☑️" : "📋"} ${CHAPTERS[chapter - 1].title}`;
+        this.shadowRoot.querySelector('header h1').textContent = `Week ${w}: ${week.title}`;
+        this.shadowRoot.querySelector('header h2').textContent = `${done ? "✅" : "💻"} Practice: Chapter ${c}`;
+        this.shadowRoot.querySelector('header h3').textContent = `${done ? "☑️" : "📋"} ${chapter.title}`;
         
-        this.#renderCoding(unit, chapter, done);
-        this.#renderPair(chapter, done);
-        this.#renderProject(chapter, done);
+        this.#renderCoding(w, c, done);
+        this.#renderPair(c, done);
+        this.#renderProject(c, done);
     }
 
-    #renderCoding(unit, chapter, done) {
+    #renderCoding(w, c, done) {
         const button = this.shadowRoot.querySelector('.coding button');
         button.style.textDecorationLine = done ? "line-through" : "none";
-        button.firstElementChild.textContent = `Exercise ${chapter}`;
-        button.onclick = () => window.open(`https://code.siliconwat.com/#frontend-unit${unit}-chapter${chapter}`, '_blank');
+        button.firstElementChild.textContent = `Exercise ${c}`;
+        button.onclick = () => window.open(`https://code.siliconwat.com/#frontend-week${w}-chapter${c}`, '_blank');
     }
 
-    #renderPair(chapter, done) {
-        const week = 0; // TODO:
+    #renderPair(c, done) {
+        const w = 0; // TODO:
         const button = this.shadowRoot.querySelector('.pair button');
         button.style.textDecorationLine = done ? "line-through" : "none";
-        button.firstElementChild.textContent = `Challenge ${chapter}`;
-        button.onclick = () => window.open(`https://frontend.siliconwat.org/#practice-week${week}-chapter${chapter}`, '_blank');
+        button.firstElementChild.textContent = `Challenge ${c}`;
+        button.onclick = () => window.open(`https://frontend.siliconwat.org/#practice-week${w}-chapter${chapter}`, '_blank');
     }
     
-    #renderProject(chapter, done) {
-        const week = 0; // TODO:
+    #renderProject(c, done) {
+        const w = 0; // TODO:
         const button = this.shadowRoot.querySelector('.project button');
         button.style.textDecorationLine = done ? "line-through" : "none";
-        button.firstElementChild.textContent = `Suggestion ${chapter}`;
-        button.onclick = () => window.open(`https://frontend.siliconwat.org/#practice-week${week}-chapter${chapter}`, '_blank');
+        button.firstElementChild.textContent = `Suggestion ${c}`;
+        button.onclick = () => window.open(`https://frontend.siliconwat.org/#practice-week${w}-chapter${c}`, '_blank');
     }
 }
 

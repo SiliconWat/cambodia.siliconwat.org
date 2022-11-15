@@ -18,24 +18,26 @@ class SwHeader extends HTMLElement {
     #render(weeks, chapters) {
         const fragment = document.createDocumentFragment();
 
-        weeks.forEach((unit, u) => {
+        weeks.forEach((week, w) => {
             const li = document.createElement('li');
             const h3 = document.createElement('h3');
             const nav = document.createElement('nav');
             const h2 = document.createElement('h2');
+            const p = document.createElement('p');
             const bar = document.createElement('sw-bar');
 
-            h3.textContent = `${unit.bonus ? "Bonus " : ""}Unit ${u + 1}`;
-            h2.textContent = unit.title;
-            bar.setAttribute("id", u + 1);
-            // bar.unit = u + 1;
+            h3.textContent = `Week ${w + 1}`;
+            h2.textContent = week.title;
+            p.textContent = week.description;
+            bar.setAttribute("id", w + 1);
+            // bar.week = w + 1;
 
             fragment.append(li);
             li.append(h3, nav);
-            nav.append(h2, bar);
+            nav.append(h2, bar, p);
 
-            if (unit.from && unit.to) {
-                for (let c = unit.from - 1; c < unit.to; c++) {
+            if (week.from && week.to) {
+                for (let c = week.from - 1; c < week.to; c++) {
                     const chapter = chapters[c];
                     const h4 = document.createElement('h4');
                     const menu = document.createElement('menu');
@@ -52,7 +54,7 @@ class SwHeader extends HTMLElement {
                         const a = document.createElement('a');
 
                         li.classList.add(taskLowerCase);
-                        input.id = `${taskLowerCase}-unit${u + 1}-chapter${c + 1}`;
+                        input.id = `${taskLowerCase}-week${w + 1}-chapter${c + 1}`;
                         input.type = 'checkbox';
                         input.checked = Boolean(Number(localStorage.getItem(input.id)));
                         input.oninput = this.#checkMark.bind(this);
@@ -71,8 +73,8 @@ class SwHeader extends HTMLElement {
 
     #checkMark(event) {
         localStorage.setItem(event.target.id, Number(event.target.checked));
-        const unit = event.target.id.split('-')[1].replace('unit', "");
-        this.shadowRoot.getElementById(unit).render();
+        const week = event.target.id.split('-')[1].replace('week', "");
+        this.shadowRoot.getElementById(week).render();
         document.querySelector('sw-main').render();
         document.querySelector('sw-progress').render();
     }

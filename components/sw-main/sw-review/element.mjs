@@ -8,43 +8,45 @@ class SwReview extends HTMLElement {
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    async render(unit, chapter) {
+    async render(w, c) {
         this.style.display = 'block';
-        const done = Number(localStorage.getItem(`review-unit${unit}-chapter${chapter}`));
+        const done = Number(localStorage.getItem(`review-week${w}-chapter${c}`));
 
         const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
         const { WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
+        const week = WEEKS[w - 1];
+        const chapter = CHAPTERS[c - 1];
 
-        this.shadowRoot.querySelector('header h1').textContent = `Unit ${unit}: ${WEEKS[unit - 1].title}`;
-        this.shadowRoot.querySelector('header h2').textContent = `${done ? "✅" : "👩🏼‍💻"} Review: Chapter ${chapter}`;
-        this.shadowRoot.querySelector('header h3').textContent = `${done ? "☑️" : "📋"} ${CHAPTERS[chapter - 1].title}`;
+        this.shadowRoot.querySelector('header h1').textContent = `Week ${w}: ${week.title}`;
+        this.shadowRoot.querySelector('header h2').textContent = `${done ? "✅" : "👩🏼‍💻"} Review: Chapter ${c}`;
+        this.shadowRoot.querySelector('header h3').textContent = `${done ? "☑️" : "📋"} ${chapter.title}`;
         
-        this.#renderFlashcard(unit, chapter, done);
-        this.#renderSummary(chapter, done);
-        this.#renderInterview(chapter, done);
+        this.#renderFlashcard(w, c, done);
+        this.#renderSummary(c, done);
+        this.#renderInterview(c, done);
     }
 
-    #renderFlashcard(unit, chapter, done) {
+    #renderFlashcard(w, c, done) {
         const button = this.shadowRoot.querySelector('.flashcard button');
         button.style.textDecorationLine = done ? "line-through" : "none";
-        button.firstElementChild.textContent = `Game ${chapter}`;
-        button.onclick = () => window.open(`https://flashcard.siliconwat.com/#frontend-unit${unit}-chapter${chapter}`, '_blank');
+        button.firstElementChild.textContent = `Game ${c}`;
+        button.onclick = () => window.open(`https://flashcard.siliconwat.com/#frontend-week${w}-chapter${c}`, '_blank');
     }
 
-    #renderSummary(chapter, done) {
-        const week = 0; // TODO:
+    #renderSummary(c, done) {
+        const w = 0; // TODO:
         const button = this.shadowRoot.querySelector('.summary button');
         button.style.textDecorationLine = done ? "line-through" : "none";
-        button.firstElementChild.textContent = `Summary ${chapter}`;
-        button.onclick = () => window.open(`https://frontend.siliconwat.org/#review-week${week}-chapter${chapter}`, '_blank');
+        button.firstElementChild.textContent = `Summary ${c}`;
+        button.onclick = () => window.open(`https://frontend.siliconwat.org/#review-week${w}-chapter${c}`, '_blank');
     }
     
-    #renderInterview(chapter, done) {
-        const week = 0; // TODO:
+    #renderInterview(c, done) {
+        const w = 0; // TODO:
         const button = this.shadowRoot.querySelector('.interview button');
         button.style.textDecorationLine = done ? "line-through" : "none";
-        button.firstElementChild.textContent = `Interview ${chapter}`;
-        button.onclick = () => window.open(`https://frontend.siliconwat.org/#review-week${week}-chapter${chapter}`, '_blank');
+        button.firstElementChild.textContent = `Interview ${c}`;
+        button.onclick = () => window.open(`https://frontend.siliconwat.org/#review-week${w}-chapter${c}`, '_blank');
     }
 }
 
