@@ -1,5 +1,4 @@
 import { ORIGIN } from "/global.mjs";
-
 const template = document.createElement("template");
 
 template.innerHTML = `

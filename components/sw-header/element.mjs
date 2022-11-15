@@ -1,5 +1,4 @@
 import { FRONTEND } from "/global.mjs";
-import { UNITS, CHAPTERS } from "/data.mjs";
 import template from './template.mjs';
 
 class SwHeader extends HTMLElement {
@@ -11,13 +10,15 @@ class SwHeader extends HTMLElement {
 
     async connectedCallback() {
         await import(`${FRONTEND}/components/sw-header/sw-bar/element.mjs`);
-        this.#render();
+        const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
+        const { WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
+        this.#render(WEEKS, CHAPTERS);
     }
 
-    #render() {
+    #render(weeks, chapters) {
         const fragment = document.createDocumentFragment();
 
-        UNITS.forEach((unit, u) => {
+        weeks.forEach((unit, u) => {
             const li = document.createElement('li');
             const h3 = document.createElement('h3');
             const nav = document.createElement('nav');
@@ -35,7 +36,7 @@ class SwHeader extends HTMLElement {
 
             if (unit.from && unit.to) {
                 for (let c = unit.from - 1; c < unit.to; c++) {
-                    const chapter = CHAPTERS[c];
+                    const chapter = chapters[c];
                     const h4 = document.createElement('h4');
                     const menu = document.createElement('menu');
 
