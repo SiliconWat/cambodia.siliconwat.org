@@ -1,11 +1,11 @@
-import "./components/sw-header/element.mjs";
+import "/components/sw-header/element.mjs";
 
 //import "./components/sw-main/sw-learn/element.mjs";
 //import "./components/sw-main/sw-practice/element.mjs";
 //import "./components/sw-main/sw-review/element.mjs";
 //import "./components/sw-main/element.mjs";
 
-import "./components/sw-footer/element.mjs";
+import "/components/sw-footer/element.mjs";
 import { FRONTEND } from "/global.mjs";
 
 window.onload = async () => {
@@ -13,7 +13,7 @@ window.onload = async () => {
     await import(`${FRONTEND}/components/sw-main/sw-practice/element.mjs`);
     await import(`${FRONTEND}/components/sw-main/sw-review/element.mjs`);
     await import(`${FRONTEND}/components/sw-main/sw-home/element.mjs`);
-    await import(`/components/sw-main/element.mjs`);
+    await import(`${FRONTEND}/components/sw-main/element.mjs`);
 
     await import(`${FRONTEND}/components/sw-progress/element.mjs`);
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
