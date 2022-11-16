@@ -28,13 +28,13 @@ class SwHeader extends HTMLElement {
 
             h3.textContent = `Week ${w + 1}`;
             h2.textContent = week.title;
-            p.textContent = week.description;
+            p.innerHTML = week.description;
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
 
             fragment.append(li);
             li.append(h3, nav);
-            nav.append(h2, bar, p);
+            nav.append(h2, p, document.createElement('br'), bar, document.createElement('br'));
 
             if (week.from && week.to) {
                 for (let c = week.from - 1; c < week.to; c++) {
