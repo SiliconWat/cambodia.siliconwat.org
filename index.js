@@ -5,6 +5,7 @@ import "/components/sw-header/element.mjs";
 //import "./components/sw-main/sw-review/element.mjs";
 //import "./components/sw-main/element.mjs";
 
+import "/components/sw-login/element.mjs";
 import "/components/sw-footer/element.mjs";
 import { FRONTEND } from "/global.mjs";
 
