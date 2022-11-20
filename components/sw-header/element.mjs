@@ -14,27 +14,28 @@ class SwHeader extends HTMLElement {
     }
 
     async render() {
-        const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
-        const { COHORT, WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
+        const { TRILOGY, getGitHub } = await import(`${FRONTEND}/global.mjs`);
+        const { YEAR, COHORT, WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
         const fragment = document.createDocumentFragment();
 
-        WEEKS.forEach((week, w) => {
+        for (let w = 0; w < WEEKS.length; w++) {
+            const week = WEEKS[w];
             const li = document.createElement('li');
             const h3 = document.createElement('h3');
             const nav = document.createElement('nav');
             const h2 = document.createElement('h2');
-            const p = document.createElement('p');
+            const em = document.createElement('em');
             const bar = document.createElement('sw-bar');
 
             h3.textContent = `Week ${w + 1}`;
             h2.textContent = this.#getWeek(COHORT, w);
-            p.innerHTML = week.description;
+            await this.#getGroup(TRILOGY, getGitHub, YEAR, em, week, w);
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
 
             fragment.append(li);
             li.append(h3, nav);
-            nav.append(h2, p, document.createElement('br'), bar, document.createElement('br'));
+            nav.append(h2, em, document.createElement('br'), bar, document.createElement('br'));
 
             if (week.from && week.to) {
                 for (let c = week.from - 1; c < week.to; c++) {
@@ -66,7 +67,7 @@ class SwHeader extends HTMLElement {
                     });
                 }
             }
-        });
+        }
 
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
@@ -86,6 +87,34 @@ class SwHeader extends HTMLElement {
         else end.setDate(start.getDate() + 7*2 - 1);
 
         return `${this.#months[start.getMonth()]} ${start.getDate()} - ${this.#months[end.getMonth()]} ${end.getDate()}`;
+    }
+
+    async #getGroup(trilogy, getGitHub, year, element, week, w) {
+        if (week.active) {
+            const term = localStorage.getItem('term').split('-');
+            const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/Cohort/${term[0] === 'semester' ? "Semesters" : "Quarters"}/${term[1].charAt(0).toUpperCase() + term[1].slice(1)}/Groups/Weeks/${w + 1}/Groups.json`);
+            const groups = await data.json();
+    
+            const github = await getGitHub();
+            if (github && github.login) {
+                const group = groups.find(group => group.members.includes(github.login));
+                const partners = group.pairs.find(pair => pair.includes(github.login));
+
+                group.members.forEach(member => {
+                    const a = document.createElement('a');
+                    a.style.fontWeight = partners.includes(member) ? "bold" : "normal";
+                    a.title = partners.includes(member) ? "Your Programming Partner" : "Your Study Group Member";
+                    a.target = "_blank";
+                    a.href = `https://github.com/${member}`;
+                    a.textContent = `@${member}`;
+                    element.append(a, " ");
+                });
+            } else {
+                element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
+            }
+        } else {
+            element.textContent = "TBA";
+        }
     }
 
     #checkMark(event) {
