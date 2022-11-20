@@ -10,15 +10,15 @@ class SwHeader extends HTMLElement {
 
     async connectedCallback() {
         await import(`${FRONTEND}/components/sw-header/sw-bar/element.mjs`);
-        const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
-        const { WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
-        this.#render(WEEKS, CHAPTERS);
+        await this.render();
     }
 
-    #render(weeks, chapters) {
+    async render() {
+        const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
+        const { COHORT, WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
         const fragment = document.createDocumentFragment();
 
-        weeks.forEach((week, w) => {
+        WEEKS.forEach((week, w) => {
             const li = document.createElement('li');
             const h3 = document.createElement('h3');
             const nav = document.createElement('nav');
@@ -27,7 +27,7 @@ class SwHeader extends HTMLElement {
             const bar = document.createElement('sw-bar');
 
             h3.textContent = `Week ${w + 1}`;
-            h2.textContent = week.title;
+            h2.textContent = this.#getWeek(COHORT, w);
             p.innerHTML = week.description;
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
@@ -38,7 +38,7 @@ class SwHeader extends HTMLElement {
 
             if (week.from && week.to) {
                 for (let c = week.from - 1; c < week.to; c++) {
-                    const chapter = chapters[c];
+                    const chapter = CHAPTERS[c];
                     const h4 = document.createElement('h4');
                     const menu = document.createElement('menu');
 
@@ -69,6 +69,23 @@ class SwHeader extends HTMLElement {
         });
 
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
+    }
+
+    #months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    #getWeek(cohort, w) {
+        const term = localStorage.getItem('term').split('-');
+        const date = cohort[term[0]][term[1]].start;
+
+        const start = new Date(date);
+        if (term[0] === 'quarter') start.setDate(date.getDate() + 7*w)
+        else start.setDate(date.getDate() + 7*w*2);
+
+        const end = new Date(start);
+        if (term[0] === 'quarter') end.setDate(start.getDate() + 6)
+        else end.setDate(start.getDate() + 7*2 - 1);
+
+        return `${this.#months[start.getMonth()]} ${start.getDate()} - ${this.#months[end.getMonth()]} ${end.getDate()}`;
     }
 
     #checkMark(event) {
