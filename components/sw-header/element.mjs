@@ -14,7 +14,7 @@ class SwHeader extends HTMLElement {
     }
 
     async render() {
-        const { TRILOGY, getGitHub } = await import(`${FRONTEND}/global.mjs`);
+        const { TRILOGY, getGitHub, getWeek } = await import(`${FRONTEND}/global.mjs`);
         const { YEAR, COHORT, WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
         const fragment = document.createDocumentFragment();
 
@@ -28,8 +28,8 @@ class SwHeader extends HTMLElement {
             const bar = document.createElement('sw-bar');
 
             h3.textContent = `Week ${w + 1}`;
-            h2.textContent = this.#getWeek(COHORT, w);
-            await this.#getGroup(TRILOGY, getGitHub, YEAR, em, week, w);
+            h2.textContent = getWeek(COHORT, w + 1);
+            await this.#getGroup(TRILOGY, getGitHub, YEAR, em, week, w + 1);
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
 
@@ -72,45 +72,33 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
 
-    #months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    #getWeek(cohort, w) {
-        const term = localStorage.getItem('term').split('-');
-        const date = cohort[term[0]][term[1]].start;
-
-        const start = new Date(date);
-        if (term[0] === 'quarter') start.setDate(date.getDate() + 7*w)
-        else start.setDate(date.getDate() + 7*w*2);
-
-        const end = new Date(start);
-        if (term[0] === 'quarter') end.setDate(start.getDate() + 6)
-        else end.setDate(start.getDate() + 7*2 - 1);
-
-        return `${this.#months[start.getMonth()]} ${start.getDate()} - ${this.#months[end.getMonth()]} ${end.getDate()}`;
-    }
-
     async #getGroup(trilogy, getGitHub, year, element, week, w) {
         if (week.active) {
-            const term = localStorage.getItem('term').split('-');
-            const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/Cohort/${term[0] === 'semester' ? "Semesters" : "Quarters"}/${term[1].charAt(0).toUpperCase() + term[1].slice(1)}/Groups/Weeks/${w + 1}/Groups.json`);
-            const groups = await data.json();
-    
-            const github = await getGitHub();
-            if (github && github.login) {
-                const group = groups.find(group => group.members.includes(github.login));
-                const partners = group.pairs.find(pair => pair.includes(github.login));
+            try {
+                const term = localStorage.getItem('term').split('-');
+                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/Cohort/${term[0] === 'semester' ? "Semesters" : "Quarters"}/${term[1].charAt(0).toUpperCase() + term[1].slice(1)}/Groups/Weeks/${w}/Groups.json`, { cache: "no-store" });
+                const groups = await data.json();
+                const github = await getGitHub();
 
-                group.members.forEach(member => {
-                    const a = document.createElement('a');
-                    a.style.fontWeight = partners.includes(member) ? "bold" : "normal";
-                    a.title = partners.includes(member) ? "Your Programming Partner" : "Your Study Group Member";
-                    a.target = "_blank";
-                    a.href = `https://github.com/${member}`;
-                    a.textContent = `@${member}`;
-                    element.append(a, " ");
-                });
-            } else {
-                element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
+                if (github && github.login) {
+                    const group = groups.find(group => group.members.includes(github.login));
+                    const partners = group.pairs.find(pair => pair.includes(github.login));
+
+                    group.members.forEach(member => {
+                        const a = document.createElement('a');
+                        a.style.fontWeight = partners.includes(member) ? "bold" : "normal";
+                        a.title = partners.includes(member) ? "Your Programming Partner" : "Your Study Group Member";
+                        a.target = "_blank";
+                        a.href = `https://github.com/${member}`;
+                        a.textContent = `@${member}`;
+                        element.append(a, " ");
+                    });
+                } else {
+                    element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
+                }
+            } catch(error) {
+                console.error(error);
+                element.textContent = "TBA";
             }
         } else {
             element.textContent = "TBA";
