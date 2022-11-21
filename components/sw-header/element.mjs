@@ -76,7 +76,7 @@ class SwHeader extends HTMLElement {
         if (week.active) {
             try {
                 const term = localStorage.getItem('term').split('-');
-                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/Cohort/${term[0] === 'semester' ? "Semesters" : "Quarters"}/${term[1].charAt(0).toUpperCase() + term[1].slice(1)}/Groups/Weeks/${w}/Groups.json`, { cache: "no-store" });
+                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/${term[0] === 'semester' ? "Semesters" : "Quarters"}/${term[1].charAt(0).toUpperCase() + term[1].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
                 const groups = await data.json();
                 const github = await getGitHub();
 
