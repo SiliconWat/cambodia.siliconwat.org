@@ -27,11 +27,11 @@ template.innerHTML = `
             </section>
             <section>
                 <div>
-                    <h5>Students' Projects</h5>
+                    <h5>Showcase</h5>
                     <ul>
-                        <li><a href="#">Best Startup</a></li>
-                        <li><a href="#">Best Idea</a></li>
-                        <li><a href="#">Best Code</a></li>
+                        <li><a href="https://best.siliconwat.org/#frontend-startup">Best Startup</a></li>
+                        <li><a href="https://best.siliconwat.org/#frontend-idea">Best Idea</a></li>
+                        <li><a href="https://best.siliconwat.org/#frontend-code">Best Code</a></li>
                     </ul> 
                 </div>
             </section>
