@@ -86,11 +86,22 @@ class SwHeader extends HTMLElement {
 
                     group.members.forEach(member => {
                         const a = document.createElement('a');
-                        a.style.fontWeight = partners.includes(member) ? "bold" : "normal";
-                        a.title = partners.includes(member) ? "Your Programming Partner" : "Your Study Group Member";
                         a.target = "_blank";
                         a.href = `https://github.com/${member}`;
                         a.textContent = `@${member}`;
+
+                        if (partners.includes(member)) {
+                            a.style.fontWeight = "bold";
+                            if (member === github.login) {
+                                a.title = "You in your Study Group";
+                            } else {
+                                a.title = "Your Programming Partner";
+                                a.style.textDecorationLine = "underline";
+                            }
+                        } else {
+                            a.title = "Your Study Group Member";
+                        }
+
                         element.append(a, " ");
                     });
                 } else {
