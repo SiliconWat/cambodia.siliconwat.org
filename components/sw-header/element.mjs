@@ -14,7 +14,7 @@ class SwHeader extends HTMLElement {
     }
 
     async render() {
-        const { TRILOGY, getGitHub, getWeek } = await import(`${FRONTEND}/global.mjs`);
+        const { TRILOGY, getGitHub, getTerm, getWeek } = await import(`${FRONTEND}/global.mjs`);
         const { YEAR, COHORT, WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
         const fragment = document.createDocumentFragment();
 
@@ -27,9 +27,10 @@ class SwHeader extends HTMLElement {
             const em = document.createElement('em');
             const bar = document.createElement('sw-bar');
 
+            const github = await getGitHub();
+            await this.#getGroup(TRILOGY, github, getTerm(github), YEAR, em, week, w + 1);
             h3.textContent = `Week ${w + 1}`;
-            h2.textContent = getWeek(COHORT, w + 1);
-            await this.#getGroup(TRILOGY, getGitHub, YEAR, em, week, w + 1);
+            h2.textContent = await getWeek(COHORT, w + 1);
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
 
@@ -72,15 +73,13 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
 
-    async #getGroup(trilogy, getGitHub, year, element, week, w) {
+    async #getGroup(trilogy, github, term, year, element, week, w) {
         if (week.active) {
             try {
-                const term = localStorage.getItem('term').split('-');
-                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/${term[0] === 'semester' ? "Semesters" : "Quarters"}/${term[1].charAt(0).toUpperCase() + term[1].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
+                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/${term[1] === 'semester' ? "Semesters" : "Quarters"}/${term[2].charAt(0).toUpperCase() + term[2].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
                 const groups = await data.json();
-                const github = await getGitHub();
 
-                if (github && github.login) {
+                if (github.student) {
                     const group = groups.find(group => group.members.includes(github.login));
                     const partners = group.pairs.find(pair => pair.includes(github.login));
 
