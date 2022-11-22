@@ -14,7 +14,7 @@ class SwHeader extends HTMLElement {
     }
 
     async render() {
-        const { TRILOGY, getGitHub, getYear, getTerm, getWeek } = await import(`${FRONTEND}/global.mjs`);
+        const { TRILOGY, getGitHub, getYear, getTerm, getWeeks } = await import(`${FRONTEND}/global.mjs`);
         const syllabus = await fetch(`https://raw.githubusercontent.com/SiliconWat/${TRILOGY[0].toLowerCase()}-cohort/main/${await getYear()}/Syllabus.json`, { cache: "no-store" });
         const { cohort, weeks, chapters } = await syllabus.json();
         const fragment = document.createDocumentFragment();
@@ -31,7 +31,7 @@ class SwHeader extends HTMLElement {
             const github = await getGitHub();
             await this.#getGroup(TRILOGY, github, await getYear(), getTerm(github), em, week, w + 1);
             h3.textContent = `Week ${w + 1}`;
-            h2.textContent = await getWeek(cohort, w + 1);
+            h2.textContent = await getWeeks(cohort, w + 1);
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
 
@@ -57,7 +57,8 @@ class SwHeader extends HTMLElement {
                         const a = document.createElement('a');
 
                         li.classList.add(taskLowerCase);
-                        input.id = `${taskLowerCase}-week${w + 1}-chapter${c + 1}`;
+                        input.id = `${taskLowerCase}-chapter${c + 1}`;
+                        input.setAttribute('data-week', w + 1);
                         input.type = 'checkbox';
                         input.checked = Boolean(Number(localStorage.getItem(input.id)));
                         input.oninput = this.#checkMark.bind(this);
@@ -118,8 +119,7 @@ class SwHeader extends HTMLElement {
 
     #checkMark(event) {
         localStorage.setItem(event.target.id, Number(event.target.checked));
-        const week = event.target.id.split('-')[1].replace('week', "");
-        this.shadowRoot.getElementById(week).render();
+        this.shadowRoot.getElementById(event.target.dataset.week).render();
         document.querySelector('sw-main').render();
         document.querySelector('sw-progress').render();
     }
