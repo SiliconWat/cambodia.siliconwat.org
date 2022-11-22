@@ -11,6 +11,7 @@ class SwHeader extends HTMLElement {
     async connectedCallback() {
         await import(`${FRONTEND}/components/sw-header/sw-bar/element.mjs`);
         await this.render();
+        this.style.display = 'block';
     }
 
     async render() {

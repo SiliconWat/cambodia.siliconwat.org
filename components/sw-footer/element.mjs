@@ -10,6 +10,7 @@ class SwFooter extends HTMLElement {
 
     async connectedCallback() {
         await import(`${UNIVERSITY}/components/sw-footer/sw-sponsors/element.mjs`);
+        this.style.display = 'block';
     }
 }
 
