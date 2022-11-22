@@ -14,12 +14,13 @@ class SwHeader extends HTMLElement {
     }
 
     async render() {
-        const { TRILOGY, getGitHub, getTerm, getWeek } = await import(`${FRONTEND}/global.mjs`);
-        const { YEAR, COHORT, WEEKS, CHAPTERS } = await import(`${TRILOGY[2]}/data.mjs`);
+        const { TRILOGY, getGitHub, getYear, getTerm, getWeek } = await import(`${FRONTEND}/global.mjs`);
+        const syllabus = await fetch(`https://raw.githubusercontent.com/SiliconWat/${TRILOGY[0].toLowerCase()}-cohort/main/${await getYear()}/Syllabus.json`, { cache: "no-store" });
+        const { cohort, weeks, chapters } = await syllabus.json();
         const fragment = document.createDocumentFragment();
 
-        for (let w = 0; w < WEEKS.length; w++) {
-            const week = WEEKS[w];
+        for (let w = 0; w < weeks.length; w++) {
+            const week = weeks[w];
             const li = document.createElement('li');
             const h3 = document.createElement('h3');
             const nav = document.createElement('nav');
@@ -28,9 +29,9 @@ class SwHeader extends HTMLElement {
             const bar = document.createElement('sw-bar');
 
             const github = await getGitHub();
-            await this.#getGroup(TRILOGY, github, getTerm(github), YEAR, em, week, w + 1);
+            await this.#getGroup(TRILOGY, github, await getYear(), getTerm(github), em, week, w + 1);
             h3.textContent = `Week ${w + 1}`;
-            h2.textContent = await getWeek(COHORT, w + 1);
+            h2.textContent = await getWeek(cohort, w + 1);
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
 
@@ -40,7 +41,7 @@ class SwHeader extends HTMLElement {
 
             if (week.from && week.to) {
                 for (let c = week.from - 1; c < week.to; c++) {
-                    const chapter = CHAPTERS[c];
+                    const chapter = chapters[c];
                     const h4 = document.createElement('h4');
                     const menu = document.createElement('menu');
 
@@ -73,10 +74,10 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
 
-    async #getGroup(trilogy, github, term, year, element, week, w) {
+    async #getGroup(trilogy, github, y, term, element, week, w) {
         if (week.active) {
             try {
-                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${year}/${term[1] === 'semester' ? "Semesters" : "Quarters"}/${term[2].charAt(0).toUpperCase() + term[2].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
+                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${y}/${term[1] === 'semester' ? "Semesters" : "Quarters"}/${term[2].charAt(0).toUpperCase() + term[2].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
                 const groups = await data.json();
 
                 if (github.student) {
