@@ -9,6 +9,7 @@ import "/components/sw-footer/element.mjs";
 import { FRONTEND } from "/global.mjs";
 
 window.onload = async () => {
+    const { getGitHub } = await import(`${FRONTEND}/global.mjs`);
     await import(`${FRONTEND}/components/sw-auth/element.mjs`);
 
     await import(`${FRONTEND}/components/sw-main/sw-learn/element.mjs`);
@@ -19,7 +20,12 @@ window.onload = async () => {
 
     await import(`${FRONTEND}/components/sw-progress/element.mjs`);
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
-}
+
+    const github = await getGitHub();
+    document.querySelector('sw-header').render(github);
+    document.querySelector('sw-main').render(github);
+    document.querySelector('sw-progress').render(github);
+};
 
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}

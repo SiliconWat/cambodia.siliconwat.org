@@ -2,22 +2,25 @@ import { FRONTEND } from "/global.mjs";
 import template from './template.mjs';
 
 class SwHeader extends HTMLElement {
+    #github;
+
     constructor() {
         super();
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
 
-    async connectedCallback() {
+    async render(github=this.#github) {
+        this.#github = github;
         await import(`${FRONTEND}/components/sw-header/sw-bar/element.mjs`);
-        await this.render();
+        await this.#render(github);
         this.style.display = 'block';
     }
 
-    async render() {
-        const { TRILOGY, getGitHub, getEmoji, getYear, getTerm, getWeeks } = await import(`${FRONTEND}/global.mjs`);
-        const syllabus = await fetch(`https://raw.githubusercontent.com/SiliconWat/${TRILOGY[0].toLowerCase()}-cohort/main/${await getYear()}/Syllabus.json`, { cache: "no-store" });
-        const { cohort, weeks, chapters } = await syllabus.json();
+    async #render(github) {
+        const { getEmoji, getYear, getTerm, getWeeks, getData } = await import(`${FRONTEND}/global.mjs`);
+        const y = getYear(github);
+        const { cohort, weeks, chapters } = await getData('syllabus', y);
         const fragment = document.createDocumentFragment();
 
         for (let w = 0; w < weeks.length; w++) {
@@ -29,12 +32,14 @@ class SwHeader extends HTMLElement {
             const em = document.createElement('em');
             const bar = document.createElement('sw-bar');
 
-            const github = await getGitHub();
-            await this.#getGroup(TRILOGY, github, getEmoji, await getYear(), getTerm(github), em, week, w + 1);
+            const y = getYear(github);
+            const term = getTerm(github);
+            await this.#getGroup(github, getData, getEmoji, y, term, week, w + 1, em);
+            h2.textContent = getWeeks(term[1], y, cohort[term[1]][term[2]].start[0], cohort[term[1]][term[2]].start[1], w + 1);
             h3.textContent = `Week ${w + 1}`;
-            h2.textContent = await getWeeks(cohort, w + 1);
             bar.setAttribute("id", w + 1);
             // bar.week = w + 1;
+            bar.render(github);
 
             fragment.append(li);
             li.append(h3, nav);
@@ -76,49 +81,41 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
 
-    async #getGroup(trilogy, github, getEmoji, y, term, element, week, w) {
+    async #getGroup(github, getData, getEmoji, y, term, week, w, element) {
         if (week.active) {
-            try {
-                const Students = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/Students.json`, { cache: "no-store" });
-                const students = await Students.json();
+            const students = await getData('students', y);
+            const groups = await getData('groups', y, {system: term[1], season: term[2], w});
 
-                const Groups = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${y}/${term[1] === 'semester' ? "Semesters" : "Quarters"}/${term[2].charAt(0).toUpperCase() + term[2].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
-                const groups = await Groups.json();
+            if (github.student) {
+                const group = groups.find(group => group.members.includes(github.login));
+                const partners = group.pairs.find(pair => pair.includes(github.login));
 
-                if (github.student) {
-                    const group = groups.find(group => group.members.includes(github.login));
-                    const partners = group.pairs.find(pair => pair.includes(github.login));
+                group.members.forEach(member => {
+                    const student = students[member];
+                    const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
 
-                    group.members.forEach(member => {
-                        const student = students[member];
-                        const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.term === term[1] && cohort.season === term[2]);
+                    const a = document.createElement('a');
+                    a.target = "_blank";
+                    a.href = `https://github.com/${member}`;
+                    a.textContent = `@${member}`;
 
-                        const a = document.createElement('a');
-                        a.target = "_blank";
-                        a.href = `https://github.com/${member}`;
-                        a.textContent = `@${member}`;
-
-                        if (partners.includes(member)) {
-                            a.style.fontWeight = "bold";
-                            if (member === github.login) {
-                                a.title = "You in your Study Group";
-                            } else {
-                                a.title = "Your Programming Partner";
-                                a.style.textDecorationLine = "underline";
-                            }
+                    if (partners.includes(member)) {
+                        a.style.fontWeight = "bold";
+                        if (member === github.login) {
+                            a.title = "You in your Study Group";
                         } else {
-                            a.title = "Your Study Group Member";
+                            a.title = "Your Programming Partner";
+                            a.style.textDecorationLine = "underline";
                         }
-                        a.title = getEmoji(cohort) + " " + a.title;
+                    } else {
+                        a.title = "Your Study Group Member";
+                    }
+                    a.title = getEmoji(cohort) + " " + a.title;
 
-                        element.append(a, " ");
-                    });
-                } else {
-                    element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
-                }
-            } catch(error) {
-                console.error(error);
-                element.textContent = "TBA";
+                    element.append(a, " ");
+                });
+            } else {
+                element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
             }
         } else {
             element.textContent = "TBA";
