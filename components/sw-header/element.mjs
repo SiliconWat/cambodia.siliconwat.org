@@ -15,7 +15,7 @@ class SwHeader extends HTMLElement {
     }
 
     async render() {
-        const { TRILOGY, getGitHub, getYear, getTerm, getWeeks } = await import(`${FRONTEND}/global.mjs`);
+        const { TRILOGY, getGitHub, getEmoji, getYear, getTerm, getWeeks } = await import(`${FRONTEND}/global.mjs`);
         const syllabus = await fetch(`https://raw.githubusercontent.com/SiliconWat/${TRILOGY[0].toLowerCase()}-cohort/main/${await getYear()}/Syllabus.json`, { cache: "no-store" });
         const { cohort, weeks, chapters } = await syllabus.json();
         const fragment = document.createDocumentFragment();
@@ -30,7 +30,7 @@ class SwHeader extends HTMLElement {
             const bar = document.createElement('sw-bar');
 
             const github = await getGitHub();
-            await this.#getGroup(TRILOGY, github, await getYear(), getTerm(github), em, week, w + 1);
+            await this.#getGroup(TRILOGY, github, getEmoji, await getYear(), getTerm(github), em, week, w + 1);
             h3.textContent = `Week ${w + 1}`;
             h2.textContent = await getWeeks(cohort, w + 1);
             bar.setAttribute("id", w + 1);
@@ -76,17 +76,23 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
 
-    async #getGroup(trilogy, github, y, term, element, week, w) {
+    async #getGroup(trilogy, github, getEmoji, y, term, element, week, w) {
         if (week.active) {
             try {
-                const data = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${y}/${term[1] === 'semester' ? "Semesters" : "Quarters"}/${term[2].charAt(0).toUpperCase() + term[2].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
-                const groups = await data.json();
+                const Students = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/Students.json`, { cache: "no-store" });
+                const students = await Students.json();
+
+                const Groups = await fetch(`https://raw.githubusercontent.com/SiliconWat/${trilogy[0].toLowerCase()}-cohort/main/${y}/${term[1] === 'semester' ? "Semesters" : "Quarters"}/${term[2].charAt(0).toUpperCase() + term[2].slice(1)}/Weeks/${w}/Groups.json`, { cache: "no-store" });
+                const groups = await Groups.json();
 
                 if (github.student) {
                     const group = groups.find(group => group.members.includes(github.login));
                     const partners = group.pairs.find(pair => pair.includes(github.login));
 
                     group.members.forEach(member => {
+                        const student = students[member];
+                        const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.term === term[1] && cohort.season === term[2]);
+
                         const a = document.createElement('a');
                         a.target = "_blank";
                         a.href = `https://github.com/${member}`;
@@ -103,6 +109,7 @@ class SwHeader extends HTMLElement {
                         } else {
                             a.title = "Your Study Group Member";
                         }
+                        a.title = getEmoji(cohort) + " " + a.title;
 
                         element.append(a, " ");
                     });
