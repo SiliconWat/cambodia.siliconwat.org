@@ -34,7 +34,7 @@ class SwHeader extends HTMLElement {
 
             const y = getYear(github);
             const term = getTerm(github);
-            await this.#getGroup(github, getData, getEmoji, y, term, week, w + 1, em);
+            await this.#getGroup(github, getData, getEmoji, y, term, w + 1, em);
             h2.textContent = getWeeks(term[1], y, cohort[term[1]][term[2]].start[0], cohort[term[1]][term[2]].start[1], w + 1);
             h3.textContent = `Week ${w + 1}`;
             bar.setAttribute("id", w + 1);
@@ -81,12 +81,11 @@ class SwHeader extends HTMLElement {
         this.shadowRoot.querySelector('ul').replaceChildren(fragment);
     }
 
-    async #getGroup(github, getData, getEmoji, y, term, week, w, element) {
-        if (week.active) {
-            const students = await getData('students', y);
-            const groups = await getData('groups', y, {system: term[1], season: term[2], w});
-
+    async #getGroup(github, getData, getEmoji, y, term, w, element) {
+        const groups = await getData('groups', y, {system: term[1], season: term[2], w});
+        if (groups.length > 0) {
             if (github.student) {
+                const students = await getData('students', y);
                 const group = groups.find(group => group.members.includes(github.login));
                 const partners = group.pairs.find(pair => pair.includes(github.login));
 
