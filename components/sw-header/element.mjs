@@ -88,11 +88,11 @@ class SwHeader extends HTMLElement {
                 const students = await getData('students', y);
                 const group = groups.find(group => group.members.includes(github.login));
                 const partners = group.pairs.find(pair => pair.includes(github.login));
-
+                
                 group.members.forEach(member => {
                     const student = students[member];
                     const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
-
+                    
                     const a = document.createElement('a');
                     a.target = "_blank";
                     a.href = `https://github.com/${member}`;
@@ -110,14 +110,14 @@ class SwHeader extends HTMLElement {
                         a.title = "Your Study Group Member";
                     }
                     a.title = getEmoji(cohort) + " " + a.title;
-
+                    
                     element.append(a, " ");
                 });
             } else {
                 element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
             }
         } else {
-            element.textContent = "TBA";
+            element.innerHTML = "<strong>TBA:</strong> Group Members and Programming Partner";
         }
     }
 
