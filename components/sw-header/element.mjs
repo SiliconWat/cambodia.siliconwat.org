@@ -11,10 +11,11 @@ class SwHeader extends HTMLElement {
     }
 
     async render(github=this.#github) {
+        this.style.opacity = 0;
         this.#github = github;
         await import(`${FRONTEND}/components/sw-header/sw-bar/element.mjs`);
         await this.#render(github);
-        this.style.display = 'block';
+        this.style.opacity = 1;
     }
 
     async #render(github) {

@@ -22,9 +22,10 @@ window.onload = async () => {
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
 
     const github = await getGitHub();
-    document.querySelector('sw-header').render(github);
-    document.querySelector('sw-main').render(github);
-    document.querySelector('sw-progress').render(github);
+    await document.querySelector('sw-header').render(github);
+    await document.querySelector('sw-main').render(github);
+    await document.querySelector('sw-progress').render(github);
+    document.body.style.display = 'flex';
 };
 
 window.dataLayer = window.dataLayer || [];
