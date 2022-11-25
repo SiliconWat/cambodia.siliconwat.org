@@ -86,14 +86,14 @@ class SwHeader extends HTMLElement {
         const groups = await getData('groups', y, {system: term[1], season: term[2], w});
         if (groups.length > 0) {
             if (github.student) {
-                const students = await getData('students', y);
+                const students = await getData('students');
                 const group = groups.find(group => group.members.includes(github.login));
                 const partners = group.pairs.find(pair => pair.includes(github.login));
                 
                 group.members.forEach(member => {
                     const student = students[member];
                     const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
-                    
+                    console.log(cohort)
                     const a = document.createElement('a');
                     a.target = "_blank";
                     a.href = `https://github.com/${member}`;
