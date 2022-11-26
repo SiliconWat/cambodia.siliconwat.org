@@ -83,42 +83,46 @@ class SwHeader extends HTMLElement {
     }
 
     async #getGroup(github, getData, getEmoji, y, term, w, element) {
-        const groups = await getData('groups', y, {system: term[1], season: term[2], w});
-        if (groups.length > 0) {
+        if (github.login) {
             if (github.student) {
-                const students = await getData('students');
-                const group = groups.find(group => group.members.includes(github.login));
-                const partners = group.pairs.find(pair => pair.includes(github.login));
-                
-                group.members.forEach(member => {
-                    const student = students[member];
-                    const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
-                    console.log(cohort)
-                    const a = document.createElement('a');
-                    a.target = "_blank";
-                    a.href = `https://github.com/${member}`;
-                    a.textContent = `@${member}`;
-
-                    if (partners.includes(member)) {
-                        a.style.fontWeight = "bold";
-                        if (member === github.login) {
-                            a.title = "You in your Study Group";
-                        } else {
-                            a.title = "Your Programming Partner";
-                            a.style.textDecorationLine = "underline";
-                        }
-                    } else {
-                        a.title = "Your Study Group Member";
-                    }
-                    a.title = getEmoji(cohort) + " " + a.title;
+                const groups = await getData('groups', y, {system: term[1], season: term[2], w});
+                if (groups.length > 0) {
+                    const students = await getData('students');
+                    const group = groups.find(group => group.members.includes(github.login));
+                    const partners = group.pairs.find(pair => pair.includes(github.login));
                     
-                    element.append(a, " ");
-                });
+                    group.members.forEach(member => {
+                        const student = students[member];
+                        const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
+                        console.log(cohort)
+                        const a = document.createElement('a');
+                        a.target = "_blank";
+                        a.href = `https://github.com/${member}`;
+                        a.textContent = `@${member}`;
+
+                        if (partners.includes(member)) {
+                            a.style.fontWeight = "bold";
+                            if (member === github.login) {
+                                a.title = "You in your Study Group";
+                            } else {
+                                a.title = "Your Programming Partner";
+                                a.style.textDecorationLine = "underline";
+                            }
+                        } else {
+                            a.title = "Your Study Group Member";
+                        }
+                        a.title = getEmoji(cohort) + " " + a.title;
+                        
+                        element.append(a, " ");
+                    });
+                } else {
+                    element.innerHTML = "<strong>TBA:</strong> Group Members and Programming Partner";
+                }
             } else {
                 element.innerHTML = "Please enroll to be assigned a <strong>Study Group</strong> and <strong>Programming Partner</strong>";
             }
         } else {
-            element.innerHTML = "<strong>TBA:</strong> Group Members and Programming Partner";
+            element.innerHTML = "Please <u>enroll</u> and <u>login</u> to see your <strong>Study Group</strong> and <strong>Programming Partner</strong>";
         }
     }
 
