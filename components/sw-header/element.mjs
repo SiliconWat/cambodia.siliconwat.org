@@ -94,7 +94,7 @@ class SwHeader extends HTMLElement {
                     group.members.forEach(member => {
                         const student = students[member];
                         const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
-                        console.log(cohort)
+                        
                         const a = document.createElement('a');
                         a.target = "_blank";
                         a.href = `https://github.com/${member}`;
