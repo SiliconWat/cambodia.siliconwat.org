@@ -6,8 +6,8 @@ import "/components/sw-header/element.mjs";
 //import "./components/sw-main/element.mjs";
 
 import "/components/sw-footer/element.mjs";
-import { FRONTEND } from "/global.mjs";
 
+import { FRONTEND } from "/global.mjs";
 window.onload = async () => {
     await import(`${FRONTEND}/components/sw-auth/element.mjs`);
 
@@ -19,6 +19,8 @@ window.onload = async () => {
 
     await import(`${FRONTEND}/components/sw-progress/element.mjs`);
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
+
+    for (let item in localStorage) if (item.includes('https')) localStorage.removeItem(item);
 
     const { getGitHub } = await import(`${FRONTEND}/global.mjs`);
     const github = await getGitHub();
