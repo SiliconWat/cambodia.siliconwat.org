@@ -21,7 +21,7 @@ window.onload = async () => {
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
 
     const { TESTING, getGitHub } = await import(`${FRONTEND}/global.mjs`);
-    if (!TESTING) for (let item in localStorage) if (item.includes('https')) localStorage.removeItem(item);
+    if (!TESTING) window.clearCache();
     const github = await getGitHub();
     
     await document.querySelector('sw-main').render(github);
