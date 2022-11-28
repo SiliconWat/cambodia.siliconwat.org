@@ -20,10 +20,10 @@ window.onload = async () => {
     await import(`${FRONTEND}/components/sw-progress/element.mjs`);
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
 
-    for (let item in localStorage) if (item.includes('https')) localStorage.removeItem(item);
-
-    const { getGitHub } = await import(`${FRONTEND}/global.mjs`);
+    const { TESTING, getGitHub } = await import(`${FRONTEND}/global.mjs`);
+    if (!TESTING) for (let item in localStorage) if (item.includes('https')) localStorage.removeItem(item);
     const github = await getGitHub();
+    
     await document.querySelector('sw-main').render(github);
     document.documentElement.style.backgroundImage = "linear-gradient(90deg, rgba(5,117,230,1) 0%, rgba(2,27,121,1) 100%)";
     document.body.style.display = 'flex';
