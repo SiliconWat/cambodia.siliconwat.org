@@ -91,7 +91,7 @@ class SwHeader extends HTMLElement {
                     const group = groups.find(group => group.members.includes(github.login));
                     const partners = group.pairs.find(pair => pair.includes(github.login));
                     
-                    group.members.forEach(member => {
+                    group.members.sort().forEach(member => {
                         const student = students[member];
                         const cohort = student.cohorts.find(cohort => cohort.year === y && cohort.system === term[1] && cohort.season === term[2]);
                         

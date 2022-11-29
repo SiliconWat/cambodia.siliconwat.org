@@ -20,8 +20,8 @@ window.onload = async () => {
     await import(`${FRONTEND}/components/sw-progress/element.mjs`);
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
 
-    const { TESTING, getGitHub } = await import(`${FRONTEND}/global.mjs`);
-    if (!TESTING) window.clearCache();
+    const { getGitHub } = await import(`${FRONTEND}/global.mjs`);
+    if (!window.TESTING) window.clearCache();
     const github = await getGitHub();
     
     await document.querySelector('sw-main').render(github);
