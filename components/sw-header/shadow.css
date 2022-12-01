@@ -26,4 +26,8 @@ h1 {
 	section {
 		flex: 1;
 	}
+
+	h3 {
+		font-size: 0.8em;
+	}
 }
