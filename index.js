@@ -20,12 +20,12 @@ window.onload = async () => {
     await import(`${FRONTEND}/components/sw-progress/element.mjs`);
     await import(`${FRONTEND}/components/sw-music/element.mjs`);
 
-    const { getGitHub } = await import(`${FRONTEND}/global.mjs`);
+    const { BACKGROUND, getGitHub } = await import(`${FRONTEND}/global.mjs`);
     if (!window.TESTING) window.clearCache();
     const github = await getGitHub();
     
     await document.querySelector('sw-main').render(github);
-    document.documentElement.style.backgroundImage = "linear-gradient(90deg, rgba(5,117,230,1) 0%, rgba(2,27,121,1) 100%)";
+    document.documentElement.style.backgroundImage = BACKGROUND;
     document.body.style.display = 'flex';
     await document.querySelector('sw-header').render(github);
     await document.querySelector('sw-progress').render(github);
