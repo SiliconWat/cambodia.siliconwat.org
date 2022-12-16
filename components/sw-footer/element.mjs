@@ -1,4 +1,4 @@
-import { UNIVERSITY } from '/global.mjs';
+import { FRONTEND, UNIVERSITY } from '/global.mjs';
 import template from './template.mjs';
 
 class SwFooter extends HTMLElement {
@@ -10,6 +10,10 @@ class SwFooter extends HTMLElement {
 
     async connectedCallback() {
         await import(`${UNIVERSITY}/components/sw-footer/sw-sponsors/element.mjs`);
+        const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
+        this.shadowRoot.getElementById('startup').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0].toLowerCase()}-startup`);
+        this.shadowRoot.getElementById('idea').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0].toLowerCase()}-idea`);
+        this.shadowRoot.getElementById('code').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0].toLowerCase()}-code`);
         this.style.display = 'block';
     }
 }
