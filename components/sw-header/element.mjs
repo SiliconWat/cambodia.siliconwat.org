@@ -74,6 +74,10 @@ class SwHeader extends HTMLElement {
                         li.append(input, " ", a);
                     });
                 }
+            } else {
+                const h4 = document.createElement('h4');
+                h4.textContent = "TBA";
+                nav.append(h4);
             }
         }
 
