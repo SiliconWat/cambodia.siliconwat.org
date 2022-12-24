@@ -6,7 +6,7 @@ template.innerHTML = `
     <link rel="stylesheet" href="${ORIGIN}/components/sw-header/shadow.css">
     <header>
         <section>
-            <a href="https://siliconwat.com"><img src="siliconwat.png"></a>
+            <a href="https://siliconwat.org"><img src="siliconwat.png"></a>
             <a href="#"><h1 id="title"></h1></a>
         </section>
         <input id="menu-toggle" type="checkbox">
