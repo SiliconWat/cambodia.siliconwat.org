@@ -3,6 +3,11 @@ import template from './template.mjs';
 
 class SwHeader extends HTMLElement {
     #github;
+    #cohorts = {
+        frontend: "Frontend Cohort Program",
+        backend: "Backend Cohort Program",
+        ios: "iOS Cohort Program"
+    }
 
     constructor() {
         super();
@@ -19,7 +24,8 @@ class SwHeader extends HTMLElement {
     }
 
     async #render(github) {
-        const { getEmoji, getYear, getTerm, getWeeks, getData } = await import(`${FRONTEND}/global.mjs`);
+        const { TRILOGY, getEmoji, getYear, getTerm, getWeeks, getData } = await import(`${FRONTEND}/global.mjs`);
+        this.shadowRoot.getElementById('title').textContent = this.#cohorts[TRILOGY[0]];
         const y = getYear(github);
         const { cohort, weeks, chapters } = await getData('syllabus', y);
         const fragment = document.createDocumentFragment();
