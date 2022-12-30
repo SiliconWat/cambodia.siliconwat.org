@@ -7,7 +7,7 @@ import "/components/sw-header/element.mjs";
 
 import "/components/sw-footer/element.mjs";
 
-import { FRONTEND } from "/global.mjs";
+import { FRONTEND_COURSE as FRONTEND } from "https://thonly.org/global.mjs";
 window.onload = async () => {
     await import(`${FRONTEND}/components/sw-auth/element.mjs`);
 

@@ -1,4 +1,4 @@
-import { FRONTEND, UNIVERSITY } from '/global.mjs';
+import { FRONTEND_COURSE as FRONTEND, UNIVERSITY } from 'https://thonly.org/global.mjs';
 import template from './template.mjs';
 
 class SwFooter extends HTMLElement {
