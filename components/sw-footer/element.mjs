@@ -14,6 +14,9 @@ class SwFooter extends HTMLElement {
         this.shadowRoot.getElementById('startup').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0]}-startup`);
         this.shadowRoot.getElementById('idea').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0]}-idea`);
         this.shadowRoot.getElementById('code').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0]}-code`);
+    }
+
+    render() {
         this.style.display = 'block';
     }
 }
