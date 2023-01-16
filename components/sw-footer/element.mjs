@@ -11,9 +11,9 @@ class SwFooter extends HTMLElement {
     async connectedCallback() {
         await import(`${UNIVERSITY}/components/sw-footer/sw-sponsors/element.mjs`);
         const { TRILOGY } = await import(`${FRONTEND}/global.mjs`);
-        this.shadowRoot.getElementById('startup').setAttribute('href', `https://showcase.siliconwat.dev/#${TRILOGY[0]}-startup`);
-        this.shadowRoot.getElementById('idea').setAttribute('href', `https://showcase.siliconwat.dev/#${TRILOGY[0]}-idea`);
-        this.shadowRoot.getElementById('code').setAttribute('href', `https://showcase.siliconwat.dev/#${TRILOGY[0]}-code`);
+        this.shadowRoot.getElementById('startup').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0]}-startup`);
+        this.shadowRoot.getElementById('idea').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0]}-idea`);
+        this.shadowRoot.getElementById('code').setAttribute('href', `https://showcase.siliconwat.org/#${TRILOGY[0]}-code`);
         this.style.display = 'block';
     }
 }
