@@ -9,7 +9,7 @@ section {
 	flex: 2;
 }
 
-ul {
+div {
 	flex: 10;
 }
 
@@ -26,22 +26,14 @@ h1 {
 	section {
 		flex: 1;
 	}
-
-	h3 {
-		font-size: 0.8em;
-	}
 }
 
 @media (max-height: 480px) {
 	section {
-		flex: 6;
+		flex: 8;
 	}
 
 	h1 {
 		font-size: 2em;
-	}
-
-	h3 {
-		font-size: 0.3em;
 	}
 }
